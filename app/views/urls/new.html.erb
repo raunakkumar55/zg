@@ -1,0 +1,32 @@
+<form method="post" id="short_form" action="<%= urls_shorten_url %>" data-remote="true" />
+  <input type="text" name="long_url" />
+  <input type="submit" id="shorten" name="Shorten">
+</form>
+
+<p id="short_url_container">
+  <a target="_blank" id="short_url" href=""></a>
+</p>
+<br><br><br><br><br>
+<a href="/urls" target="_blank"> List all shorten Urls </a>
+
+<!-- Ideally keep this in separate JS file -->
+<script>
+$('#short_url_container').hide();
+$('#short_form').on('ajax:success', show_short_url);
+
+function show_short_url(event){
+  data = event.detail[0]
+  console.log(data)
+   if (data.status == 200){
+    $('#short_url').attr("href", data.short_url);
+    $('#short_url').text(data.short_url);
+    $('#short_url').show();
+    $('#short_url_container').show();
+  }
+  else {
+    alert("Long url not valid");
+  }
+
+  }
+
+</script>

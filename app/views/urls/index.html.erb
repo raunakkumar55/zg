@@ -1,0 +1,11 @@
+<table>
+ <th> Long Url</th>
+ <th> Short Url</th>
+<% @urls.each do |url| %>
+  <tr>
+    <td><%=url.long_url %></td>
+    <td><a target="_blank" href="<%= request.base_url+"/"+url.short_url %>"><%= request.base_url+"/"+url.short_url %></a></td>
+  </tr>
+<% end %>
+
+</table>

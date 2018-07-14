@@ -54,12 +54,18 @@ class Url < ApplicationRecord
 
   private
 
+  def self.get_main_domain(url)
+    scheme = URI.parse(url).scheme
+    url = "http://#{url}" if scheme.nil?
+    host = URI.parse(url).host.downcase
+    host.start_with?('www.') ? host[4..-1] : host
+  end
+
   def self.sanitize(long_url)
-    url = URI(long_url)
-    sanitized_url = ""
-    sanitized_url = uri.host+uri.path
-    sanitized_url += uri.query.present? ? '?'+uri.query : ""
-    sanitized_url += uri.fragment.present? ? '#'+uri.fragment : ""
+    uri = URI(long_url)
+    sanitized_url = get_main_domain(long_url)
+    sanitized_url += uri.query.present? ? '?'+uri.query.to_s : ""
+    sanitized_url += uri.fragment.present? ? '#'+uri.fragment.to_s : ""
     return sanitized_url
   end
 
@@ -87,6 +93,3 @@ class Url < ApplicationRecord
   end
 end
 
-
-
-end
